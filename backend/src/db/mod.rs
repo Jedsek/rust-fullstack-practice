@@ -3,7 +3,10 @@ pub mod pet;
 
 use anyhow::Result;
 use dotenvy::dotenv;
-use sqlx::{pool::PoolOptions, postgres::Postgres, Pool};
+use sqlx::{
+    postgres::{PgPoolOptions, Postgres},
+    Pool,
+};
 use tokio::time::Duration;
 
 pub type DbPool = Pool<Postgres>;
@@ -15,9 +18,9 @@ const TIMEOUT_IDLE: Duration = Duration::from_secs(3);
 pub async fn new_db() -> Result<DbPool> {
     dotenv().unwrap();
     let db_url = std::env::var("DATABASE_URL")?;
-    let db_pool = PoolOptions::new()
+    let db_pool = PgPoolOptions::new()
         .max_connections(MAX_CON)
-        .connect_timeout(TIMEOUT_CON)
+        .max_lifetime(TIMEOUT_CON)
         .idle_timeout(TIMEOUT_IDLE)
         .connect(&db_url)
         .await?;
