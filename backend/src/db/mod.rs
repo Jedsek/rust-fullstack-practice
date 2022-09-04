@@ -1,11 +1,9 @@
-#![allow(unused)]
-
 pub mod owner;
 pub mod pet;
 
 use anyhow::Result;
 use dotenvy::dotenv;
-use sqlx::{pool::PoolOptions, postgres::Postgres, Executor, Pool};
+use sqlx::{pool::PoolOptions, postgres::Postgres, Pool};
 use tokio::time::Duration;
 
 pub type DbPool = Pool<Postgres>;
@@ -23,12 +21,5 @@ pub async fn new_db() -> Result<DbPool> {
         .idle_timeout(TIMEOUT_IDLE)
         .connect(&db_url)
         .await?;
-    sqlx::migrate!("./src/db/migrations").run(&db_pool).await?;
     Ok(db_pool)
 }
-
-// fn init_db(db_pool: &DbPool) -> Result<()> {
-//     let init_file = include_str!("migrations/init_db.sql");
-//     db_pool.execute(init_file);
-//     Ok(())
-// }

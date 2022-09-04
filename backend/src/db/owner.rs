@@ -9,7 +9,7 @@ pub async fn fetch_all(db_pool: &DbPool) -> Result<Vec<Owner>> {
     Ok(owners)
 }
 
-pub async fn fetch_one(db_pool: &DbPool, id: i32) -> Result<Vec<Owner>> {
+pub async fn fetch_by_id(db_pool: &DbPool, id: i32) -> Result<Vec<Owner>> {
     let owner = sqlx::query_as!(Owner, "SELECT * FROM owner WHERE id = $1", id)
         .fetch_all(db_pool)
         .await?;
