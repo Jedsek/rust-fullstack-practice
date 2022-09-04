@@ -44,13 +44,11 @@ pub async fn list_owners(db_pool: DbPool) -> Result<impl Reply> {
     Ok(json)
 }
 
-pub async fn fetch_owner(db_pool: DbPool, id: i32) -> Result<impl Reply> {
+pub async fn fetch_owner_by_id(db_pool: DbPool, id: i32) -> Result<impl Reply> {
     let json = db::owner::fetch_by_id(&db_pool, id)
         .await
         .expect("Unable to query db")
-        .into_iter()
-        .map(OwnerResponse::of)
-        .collect::<Vec<_>>()
+        .pipe(OwnerResponse::of)
         .pipe_ref(reply::json);
     Ok(json)
 }
