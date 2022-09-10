@@ -23,7 +23,23 @@ enum Route {
     NotFound,
 }
 
+// #[wasm_bindgen(start)]
+// pub fn run_app() {
+//     yew::start_app::<App>();
+// }
+
 #[function_component(App)]
-fn app() -> Html {
-    html! {}
+pub fn app() -> Html {
+    html! {
+        <BrowserRouter>
+            <Switch<Route> render = {Switch::render(switch)} />
+        </BrowserRouter>
+    }
+}
+
+fn switch(routes: &Route) -> Html {
+    match routes {
+        Route::Home => html! {<h1> {"Home"} </h1>},
+        _ => html! {"123"},
+    }
 }

@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use sqlx::FromRow;
 
 #[derive(Deserialize, Clone, PartialEq, Eq, Debug)]
 pub struct Owner {
@@ -27,7 +26,7 @@ impl OwnerResponse {
     }
 }
 
-#[derive(FromRow, Deserialize, Clone, PartialEq, Eq, Debug)]
+#[derive(Deserialize, Clone, PartialEq, Eq, Debug)]
 pub struct Pet {
     pub id: i32,
     pub owner_id: i32,
