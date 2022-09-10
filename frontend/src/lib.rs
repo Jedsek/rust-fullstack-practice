@@ -7,7 +7,7 @@ use yew_router::prelude::*;
 #[derive(Clone, Routable, PartialEq)]
 enum Route {
     #[at("/")]
-    Home,
+    Root,
 
     #[at("/app/create-owner")]
     CreateOwner,
@@ -23,11 +23,6 @@ enum Route {
     NotFound,
 }
 
-// #[wasm_bindgen(start)]
-// pub fn run_app() {
-//     yew::start_app::<App>();
-// }
-
 #[function_component(App)]
 pub fn app() -> Html {
     html! {
@@ -39,7 +34,14 @@ pub fn app() -> Html {
 
 fn switch(routes: &Route) -> Html {
     match routes {
-        Route::Home => html! {<h1> {"Home"} </h1>},
-        _ => html! {"123"},
+        Route::Root => html! {
+            <>
+            {"123"}
+            </>
+        },
+        Route::NotFound => html! {
+            <h1> {"404:"} <br/> {"The page is not found"}  </h1>
+        },
+        _ => html! {"Other"},
     }
 }
